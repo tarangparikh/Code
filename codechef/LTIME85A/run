@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+
+if [ -z "$1" ]
+  then
+    echo "Error : No file name supplied"
+    exit 1
+fi
+
+FILE_NAME="$1.java"
+INPUT_FILE="$1_INPUT.txt"
+OUTPUT_FILE="$1_OUPUT.txt"
+CLASS_NAME="$1"
+CLASS_FILE="$1.class"
+
+if [ ! -e "$FILE_NAME" ]
+then
+    echo "Error : File Not Present"
+    exit 1
+fi
+
+
+
+javac "$FILE_NAME"
+java "$CLASS_NAME" < "$INPUT_FILE" > "$OUTPUT_FILE"
+rm "$CLASS_FILE"
+cat "$OUTPUT_FILE"
+echo ""

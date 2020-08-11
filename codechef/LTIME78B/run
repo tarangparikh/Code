@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+#Check if the argument is provided.
+if [ -z "$1" ]
+  then
+    echo "Error : No file name supplied"
+    exit 1
+fi
+
+#Java file name.
+FILE_NAME="$1.java"
+
+#Input file name.
+INPUT_FILE="$1_INPUT.txt"
+
+#Output file name.
+OUTPUT_FILE="$1_OUPUT.txt"
+
+#Java class name.
+CLASS_NAME="$1"
+
+#Java class file after produced after compilation.
+CLASS_FILE="$1.class"
+
+#Check if the file is present.
+if [ ! -e "$FILE_NAME" ]
+then
+    echo "Error : File Not Present"
+    exit 1
+fi
+
+#Compile java file
+javac "$FILE_NAME"
+
+#Run class with input file
+java "$CLASS_NAME" < "$INPUT_FILE" #> "$OUTPUT_FILE"
+
+#Delete class file
+rm "$CLASS_FILE"
+
+#cat "$OUTPUT_FILE"
+#echo ""

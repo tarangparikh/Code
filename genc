@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]
+  then
+    echo "Error : No file Folder path supplied"
+    exit 1
+fi
+
+FOLDER_PATH="$1"
+GEN="gen"
+RUNNER="run"
+
+if [ -e "$FOLDER_PATH" ]
+then
+    echo "Error : Location already exist."
+else
+    mkdir -p "$FOLDER_PATH"
+    cp "./$GEN" "$FOLDER_PATH"
+    cp "./$RUNNER" "$FOLDER_PATH"
+fi
