@@ -64,58 +64,7 @@ public class Roads_And_Libraries {
     }
 
     static int[][] packU(int[][] e,int n){
-       
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       +++++
-       +++++++++++
+        int[] q = new int[n];
         int[][] g = new int[n][];
         for(int[] ed : e) {
             q[ed[0]]++;
