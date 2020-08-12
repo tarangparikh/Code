@@ -1,75 +1,59 @@
-#!/usr/bin/env bash
+import java.io.*;
 
-if [ -z "$1" ]
-  then
-    echo "Error : No file name supplied"
-    exit 1
-fi
-
-FILE_NAME="$1.java"
-INPUT_FILE="$1_INPUT.txt"
-CLASS_NAME="$1"
-
-if [ -e "$FILE_NAME" ]
-then
-    echo "Error : File Already Exist"
-else
-    echo "import java.io.*;
-
-public class $CLASS_NAME {
+public class Cutting_A_Material {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
     void run() throws IOException {
-      
+        int t = i();
+        while(t-->0){
+            long n = l();
+            writer.println(n*(n+1)/2+1);
+        }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        $CLASS_NAME obj = new $CLASS_NAME();
+        Cutting_A_Material obj = new Cutting_A_Material();
         obj.run();
         long end_time = System.currentTimeMillis();
-        if (local_system) obj.writer.println(\"Time : \" + (end_time - start_time));
+        if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public $CLASS_NAME(){
+    public Cutting_A_Material(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
     }
 
-    public int getInt() throws IOException {
+    public int i() throws IOException {
         return Integer.parseInt(bf.readLine());
     }
 
-    public long getLong() throws IOException {
+    public long l() throws IOException {
         return Long.parseLong(bf.readLine());
     }
 
-    public int[] ints() throws IOException {
-        String[] data = bf.readLine().split(\" \");
+    public int[] ni() throws IOException {
+        String[] data = bf.readLine().split(" ");
         int[] send = new int[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
         return send;
     }
 
-    public long[] longs() throws IOException {
-        String[] data = bf.readLine().split(\" \");
+    public long[] nl() throws IOException {
+        String[] data = bf.readLine().split(" ");
         long[] send = new long[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
         return send;
     }
 
-    public void close() {
+    public void close() throws IOException{
         writer.flush();
         writer.close();
+        bf.close();
     }
 }
-
-" > "$FILE_NAME"
-
-echo "" > "$INPUT_FILE"
-fi
