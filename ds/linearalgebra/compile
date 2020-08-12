@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+
+if [ -z "$1" ]
+  then
+    echo "Error : No file name supplied"
+    exit 1
+fi
+
+FILE_NAME="$1.java"
+CLASS_FILE="$1.class"
+
+if [ ! -e "$FILE_NAME" ]
+then
+    echo "Error : File Not Present"
+    exit 1
+fi
+
+
+
+javac "$FILE_NAME"
+rm "$CLASS_FILE"

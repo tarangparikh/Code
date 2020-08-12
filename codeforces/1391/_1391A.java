@@ -13,9 +13,8 @@ public class _1391A {
             int[] d = new int[n];
             for(int i = 0,h=n;i<n;i++,h--)
                 d[i] = h;
-            for(int e : d){
+            for(int e : d)
                 sb.append(e).append(" ");
-            }
             sb.append("\n");
         }
         writer.println(sb.toString().trim());
