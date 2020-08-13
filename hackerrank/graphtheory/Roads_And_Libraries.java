@@ -7,17 +7,12 @@ public class Roads_And_Libraries {
     StringBuilder sb;
     
     long solve(int[][] q,int[] c){
-        int[] dp = new int[c[0]];
         int[][] g = packU(q,c[0]);
-        Arrays.fill(dp,-1);
-        int color = -1;
+        int[][] comp = comp1(g);
+
+        int[] hash = new int[comp[0][0]];
         
-        for(int i = 0,h=dp.length;i<h;i++) 
-            if(dp[i] == -1) idfs(g,i,dp,++color);
-        
-        int[] hash = new int[++color];
-        
-        for(int e : dp) hash[e]++;
+        for(int e : comp[1]) hash[e]++;
         
         long cost = 0;
         for(int e : hash){
@@ -26,26 +21,6 @@ public class Roads_And_Libraries {
             cost += Math.min(a,b);
         }
         return cost;
-    }
-
-    void dfs(int[][] g,int c,int[] dp,int color){
-        if(dp[c]!=-1) return;
-        dp[c] = color;
-        for(int e : g[c]){
-            dfs(g,e,dp,color);
-        }
-    }
-
-    void idfs(int[][] g,int c,int[] dp,int color){
-        Stack<Integer> s = new Stack<>();
-        s.push(c);
-        while(!s.isEmpty()){
-            int r = s.pop();
-            dp[r] = color;
-            for(int e : g[r])
-                if(dp[e]==-1)
-                    s.push(e);
-            }
     }
 
     void run() throws IOException {
@@ -61,6 +36,31 @@ public class Roads_And_Libraries {
             writer.println(solve(q,c));
         }
 
+    }
+
+    static int[][] comp1(int[][] g){
+        int[] dp = new int[g.length];
+        Arrays.fill(dp,-1);
+        int[] s = new int[g.length];
+        int color = -1;
+        for(int i = 0,t,h=dp.length;i<h;i++){
+            if(dp[i]==-1){
+                ++color;
+                t=-1;
+                s[++t] = i;
+                dp[i] = color;
+                while(t!=-1){
+                    for(int e : g[s[t--]]){
+                        if(dp[e]==-1){
+                            //Color it here itself to avoid pushing again.
+                            dp[e] = color;
+                            s[++t] = e;
+                        }
+                    }
+                }
+            }
+        }
+        return new int[][]{{++color},dp};
     }
 
     static int[][] packU(int[][] e,int n){
