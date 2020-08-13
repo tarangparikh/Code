@@ -41,11 +41,12 @@ public class Journey_to_the_Moon {
     void idfs(int[][] g,int c,int[] dp,int color){
         Stack<Integer> s = new Stack<>();
         s.push(c);
+        dp[c] = color;
         while(!s.isEmpty()){
             int r = s.pop();
-            dp[r] = color;
             for(int e : g[r]){
                 if(dp[e]==-1){
+                    dp[e] = color;
                     s.push(e);
                 }
             }

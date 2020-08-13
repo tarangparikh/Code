@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Stack;
 
 public class Graph{
@@ -34,10 +35,11 @@ public class Graph{
         }
         return g;
     }
-    
-    //Number of components and array stating component number of each node
+
+    //Count of each component and array stating component number of each node
     static int[][] comp1(int[][] g){
         int[] dp = new int[g.length];
+        Arrays.fill(dp,-1);
         int[] s = new int[g.length];
         int color = -1;
         for(int i = 0,t,h=dp.length;i<h;i++){
@@ -45,17 +47,23 @@ public class Graph{
                 ++color;
                 t=-1;
                 s[++t] = i;
+                dp[i] = color;
                 while(t!=-1){
-                    int r = s[t--];
-                    dp[r] = color;
-                    for(int e : g[r]){
-                        if(dp[e]!=-1)
+                    for(int e : g[s[t--]]){
+                        if(dp[e]==-1){
+                            //Color it here itself to avoid pushing again.
+                            dp[e] = color;
                             s[++t] = e;
+                        }
                     }
                 }
             }
         }
-        return new int[][]{{++color},dp};
+        
+        int[] comp_count = new int[++color];
+        for(int e : dp) comp_count[e]++;
+
+        return new int[][]{dp,comp_count};
     }
     
 }

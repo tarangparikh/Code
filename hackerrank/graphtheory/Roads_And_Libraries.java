@@ -10,12 +10,8 @@ public class Roads_And_Libraries {
         int[][] g = packU(q,c[0]);
         int[][] comp = comp1(g);
 
-        int[] hash = new int[comp[0][0]];
-        
-        for(int e : comp[1]) hash[e]++;
-        
         long cost = 0;
-        for(int e : hash){
+        for(int e : comp[1]){
             long a = (long)c[2] + (long)(e-1)*(long)(c[3]);
             long b = (long)c[2] * (long)e;
             cost += Math.min(a,b);
@@ -60,7 +56,11 @@ public class Roads_And_Libraries {
                 }
             }
         }
-        return new int[][]{{++color},dp};
+        
+        int[] comp_count = new int[++color];
+        for(int e : dp) comp_count[e]++;
+
+        return new int[][]{dp,comp_count};
     }
 
     static int[][] packU(int[][] e,int n){
