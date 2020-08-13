@@ -8,17 +8,20 @@ public class Another_Maximum_Problem {
     static boolean local_system = false;
 
     void solve(int[] d,int[] q){
-        int[] s = new int[100005];
-        int[] ng = new int[d.length];
-        int[] pg = new int[d.length];
+        var s = new int[100005];
+        var ng = new int[d.length];
+        var pg = new int[d.length];
+
         Arrays.fill(ng,d.length);
         Arrays.fill(pg,-1);
-        int t = -1;
+
+        var t = -1;
         for(int i = 0,h=d.length;i<h;i++){
             while(t!=-1&&d[s[t]]<d[i])
                 ng[s[t--]] = i;
             s[++t] = i;
         }
+        
         t=-1;
         for(int i = d.length-1;i>=0;i--){
             while(t!=-1&&d[s[t]]<=d[i])
@@ -26,7 +29,7 @@ public class Another_Maximum_Problem {
             s[++t] = i;
         }
         
-        HashMap<Integer,Long> dp = new HashMap<>();
+        var dp = new HashMap<Integer,Long>();
         
         for(int i = 0,h=d.length;i<h;i++){
             long a = (long)(ng[i] - i) * (long)(i-pg[i]);
