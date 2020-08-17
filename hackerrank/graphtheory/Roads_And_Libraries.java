@@ -5,6 +5,35 @@ public class Roads_And_Libraries {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
+
+    void union(int[] d,int i,int j){
+        int a = root(d,i);
+        int b = root(d,j);
+        if(a!=b){
+            if(d[b]<d[a]){
+                int t = a;
+                a = b;
+                b = t;
+            }
+            d[a] += d[b];
+            d[b] = a;
+        }
+    }
+    int root(int[] d,int i){
+        return d[i] < 0 ? i : (d[i] = root(d,d[i]));
+    }
+
+    long solve1(int[][] q,int[] c){
+        int[] d = new int[c[0]];
+        Arrays.fill(d, -1);
+        for(int[] e : q) union(d, e[0], e[1]);
+        long count = 0;
+        for(int e : d) if(e < 0) count++;
+        long N = c[0];
+        long ci = c[2];
+        long ro = c[3];
+        return count*ci + (N - count)*Math.min(ci,ro);
+    }
     
     long solve(int[][] q,int[] c){
         int[][] g = packU(q,c[0]);
@@ -29,7 +58,7 @@ public class Roads_And_Libraries {
                 q[i][0]--;
                 q[i][1]--;
             }
-            writer.println(solve(q,c));
+            writer.println(solve1(q,c));
         }
 
     }
