@@ -12,6 +12,7 @@ public class _1398D {
         Arrays.sort(r);
         Arrays.sort(g);
         Arrays.sort(b);
+        
         long[][][] dp = new long[r.length+1][g.length + 1][b.length + 1];
         for(int i = 0,rr=r.length + 1;i<rr;i++){
             for(int j = 0,gg=g.length + 1;j<gg;j++){
@@ -24,7 +25,7 @@ public class _1398D {
                 }
             }
         }
-        TreeSet
+        
         writer.println(dp[r.length][g.length][b.length]);
     }
 
