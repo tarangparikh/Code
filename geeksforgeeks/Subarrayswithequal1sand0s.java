@@ -7,6 +7,20 @@ public class Subarrayswithequal1sand0s {
     StringBuilder sb;
     static boolean local_system = true;
 
+    long solve2(int[] d){
+        int[] dp = new int[(d.length+1)<<1];
+        int p = 0;
+        int n = d.length;
+        dp[n]++;
+        long c = 0;
+        for(int e : d){
+            p += e==0 ? -1 : e;
+            c+=dp[p+n];
+            dp[p+n]++;
+        }
+        return c;
+    }
+
     int solve1(int[] d){
         int n = d.length;
         int[] p = new int[n+1];
@@ -47,7 +61,7 @@ public class Subarrayswithequal1sand0s {
 
     void run() throws IOException {
         getInt();
-        writer.println(solve1(ints()));
+        writer.println(solve2(ints()));
     }
 
     public static void main(String[] args) throws IOException {

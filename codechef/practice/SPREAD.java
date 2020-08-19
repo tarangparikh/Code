@@ -14,6 +14,8 @@ public class SPREAD {
         long s = 0; for(++i;i>0;s+=d[i],i-=i&-i); return s;
     }
 
+    
+
     static void run() throws IOException {
         int c[] = ints();
         long[] d = new long[c[0]+5];
