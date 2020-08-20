@@ -1,54 +1,45 @@
 import java.io.*;
 
-public class _1392B {
+public class Sum_Of_Four_Values {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = false;
-
-    /*
-        1 2 3 4 5
-        4 3 2 1 0
-        0 1 2 3 4
-    */
+    static boolean local_system = true;
 
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            
-            long[] c = nl();
-            int[] d = ni();
-            int min = d[0];
-            int max = d[0];
-            for(int e : d){
-                max = Math.max(e,max);
-                min = Math.min(e,min);
+        int[] c = ni();
+        int[] d = ni();
+        Arrays.sort(d);
+        long[][] dp = new long[(d.length - 1)*(d.length)>>1][3];
+        for(int i = 0,k=0,h=d.length;i<h;i++){
+            for(int j = i+1;j<h;j++){
+                dp[k][0] = (long)d[i]*(long)d[j];
+                dp[k][1] = i;
+                dp[k][]
             }
-            if((c[1]&1)==1)
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = max - d[i];
-            else
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = d[i] - min;
-                
-        
-            for(int e : d)
-                sb.append(e).append(" ");
-            sb.append("\n");
         }
-        writer.println(sb.toString().trim());
+        int i = 0;
+        int j = dp.length - 1;
+        boolean found = false;
+        while(i<j){
+            long sum = dp[i] + dp[j];
+            if(found = sum==c[1]) break;
+            if(sum>c[1]) i++;
+            else j--;
+        }
+
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1392B obj = new _1392B();
+        Sum_Of_Four_Values obj = new Sum_Of_Four_Values();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1392B(){
+    public Sum_Of_Four_Values(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -82,3 +73,5 @@ public class _1392B {
         bf.close();
     }
 }
+
+

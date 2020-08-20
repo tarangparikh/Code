@@ -1,54 +1,35 @@
 import java.io.*;
 
-public class _1392B {
+public class MaximumSubarraySum {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    /*
-        1 2 3 4 5
-        4 3 2 1 0
-        0 1 2 3 4
-    */
-
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            
-            long[] c = nl();
-            int[] d = ni();
-            int min = d[0];
-            int max = d[0];
-            for(int e : d){
-                max = Math.max(e,max);
-                min = Math.min(e,min);
-            }
-            if((c[1]&1)==1)
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = max - d[i];
-            else
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = d[i] - min;
-                
-        
-            for(int e : d)
-                sb.append(e).append(" ");
-            sb.append("\n");
+        i();
+        int[] d = ni();
+        long p = 0;
+        long m = 0;
+        long s = Integer.MIN_VALUE;
+        for(int e : d){
+            p+=e;
+            s = Math.max(p-m,s);
+            m = Math.min(p,m);
         }
-        writer.println(sb.toString().trim());
+        writer.println(s);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1392B obj = new _1392B();
+        MaximumSubarraySum obj = new MaximumSubarraySum();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1392B(){
+    public MaximumSubarraySum(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -82,3 +63,5 @@ public class _1392B {
         bf.close();
     }
 }
+
+

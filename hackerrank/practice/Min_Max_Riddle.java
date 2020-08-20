@@ -1,75 +1,78 @@
 import java.io.*;
+import java.util.Arrays;
 
-public class _1392B {
+
+
+public class Min_Max_Riddle {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    /*
-        1 2 3 4 5
-        4 3 2 1 0
-        0 1 2 3 4
-    */
-
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            
-            long[] c = nl();
-            int[] d = ni();
-            int min = d[0];
-            int max = d[0];
-            for(int e : d){
-                max = Math.max(e,max);
-                min = Math.min(e,min);
-            }
-            if((c[1]&1)==1)
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = max - d[i];
-            else
-                for(int i = 0,h=d.length;i<h;i++)
-                    d[i] = d[i] - min;
-                
-        
-            for(int e : d)
-                sb.append(e).append(" ");
-            sb.append("\n");
+        getInt();
+        int[] d = ints();
+        int[] ng = new int[d.length];
+        int[] pg = new int[d.length];
+        Arrays.fill(ng, d.length);
+        Arrays.fill(pg, -1);
+        int[] s = new int[d.length];
+        int t = -1;
+        for(int i = 0,h=d.length;i<h;i++){
+            while(t!=-1&&d[i]<d[s[t]]) ng[s[t--]] = i;
+            s[++t] = i;
         }
+        t = -1;
+        for(int i = d.length - 1;i>=0;i--){
+            while(t!=-1&&d[i]<d[s[t]]) pg[s[t--]] = i;
+            s[++t] = i;
+        }
+        int[] max = new int[d.length];
+        for(int i = 0,h=d.length;i<h;i++){
+            int l = ng[i] - pg[i] - 1;
+            max[l-1] = Math.max(d[i],max[l-1]);
+        }
+        
+        for(int i = max.length - 2 ;i>=0;i--){
+            max[i] = Math.max(max[i+1], max[i]);
+        }
+
+        for(int e : max) sb.append(e+" ");
         writer.println(sb.toString().trim());
+        
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1392B obj = new _1392B();
+        Min_Max_Riddle obj = new Min_Max_Riddle();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1392B(){
+    public Min_Max_Riddle(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
     }
 
-    public int i() throws IOException {
+    public int getInt() throws IOException {
         return Integer.parseInt(bf.readLine());
     }
 
-    public long l() throws IOException {
+    public long getLong() throws IOException {
         return Long.parseLong(bf.readLine());
     }
 
-    public int[] ni() throws IOException {
+    public int[] ints() throws IOException {
         String[] data = bf.readLine().split(" ");
         int[] send = new int[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
         return send;
     }
 
-    public long[] nl() throws IOException {
+    public long[] longs() throws IOException {
         String[] data = bf.readLine().split(" ");
         long[] send = new long[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
@@ -82,3 +85,5 @@ public class _1392B {
         bf.close();
     }
 }
+
+
