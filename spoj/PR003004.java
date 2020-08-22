@@ -44,7 +44,6 @@ class Main {
      */
     long compute(long a,long[][] dp){
         long sum = 0;
-        long c = 0;
         int len = 1;
         long power = 1;
         
@@ -61,7 +60,6 @@ class Main {
         while(a>0){
             int r = (int)(a%10);
             a_sum -= r;
-            long quant = r*power;
             long temp_sum = 0;
             if(r>0){
                 temp_sum = a_sum*power*r + dp[len-1][r-1];

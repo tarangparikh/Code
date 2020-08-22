@@ -6,40 +6,67 @@ class SKMP {
     StringBuilder sb;
     static boolean local_system = false;
 
+    /*
+        cba
+        bbccba
+        bbccza
+        bbczac
+        
+        
+    */
+
     String solve(String ss,String pp){
         char[] s = ss.toCharArray();
         char[] p = pp.toCharArray();
 
-        int[] hash = make_hash(s,p);
-
-        int st = p[0] - 'a';
-
-        StringBuilder sb = new StringBuilder();
-        for(int i = 0,h=st;i<=st;i++){
-                for(int j = 0, l=hash[i] ;j<l;j++){
-                sb.append((char)(i + 'a'));
-            }
-        }
-        sb.append(p);
-        for(int i = st + 1,h=hash.length;i<h;i++){
-            for(int j = 0,l=hash[i] ;j<l;j++){
-                sb.append((char)(i + 'a'));
-            }
-        }
-        return sb.toString();
-    }
-
-    void make_hash(char[] a,char[] b){
         int[] hash = new int[26];
-        for(char e : a) hash[e - 'a']++;
-        for(char e : b) hash[e - 'a']--;
-        return hash;
+        for(char e : s) hash[e - 'a']++;
+        for(char e : p) hash[e - 'a']--;
+
+        if(nextSmall(p)){
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0,h=p[0] - 'a';i<h;i++){
+                for(int j = 0,l=hash[i];j<l;j++){
+                    sb.append((char)(i+'a'));
+                }
+            }
+            sb.append(p);
+            for(int i = p[0] - 'a',h = hash.length;i<h;i++){
+                for(int j = 0,l=hash[i];j<l;j++){
+                    sb.append((char)(i+'a'));
+                }
+            }
+            return sb.toString().trim();
+        }else{
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0,h=p[0] - 'a';i<=h;i++){
+                for(int j = 0,l=hash[i];j<l;j++){
+                    sb.append((char)(i+'a'));
+                }
+            }
+            sb.append(p);
+            for(int i = p[0] - 'a' + 1,h = hash.length;i<h;i++){
+                for(int j = 0,l=hash[i];j<l;j++){
+                    sb.append((char)(i+'a'));
+                }
+            }
+            return sb.toString().trim();
+        }
     }
+
+    boolean nextSmall(char[] d){
+        int i = 1;
+        int n = d.length;
+        while(i<n&&d[i]==d[i-1]) i++;
+        return i<n&&d[i]<=d[i-1];
+    }
+
+   
 
     void run() throws IOException {
         int t = i();
         while(t-->0)sb.append(solve(bf.readLine().trim(),bf.readLine().trim())).append("\n");
-        writer.println(sb.toString().trim());
+        writer.print(sb.toString().trim());
     }
 
     public static void main(String[] args) throws IOException {

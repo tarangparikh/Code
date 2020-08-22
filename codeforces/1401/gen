@@ -16,7 +16,7 @@ then
 else
     echo "import java.io.*;
 
-class Main {
+public class $CLASS_NAME {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
@@ -28,14 +28,14 @@ class Main {
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Main obj = new Main();
+        $CLASS_NAME obj = new $CLASS_NAME();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println(\"Time : \" + (end_time - start_time));
         obj.close();
     }
 
-    public Main(){
+    public $CLASS_NAME(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

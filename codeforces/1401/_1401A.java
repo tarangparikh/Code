@@ -1,41 +1,35 @@
-#!/usr/bin/env bash
+import java.io.*;
 
-if [ -z "$1" ]
-  then
-    echo "Error : No file name supplied"
-    exit 1
-fi
-
-FILE_NAME="$1.java"
-INPUT_FILE="$1_INPUT.txt"
-CLASS_NAME="$1"
-
-if [ -e "$FILE_NAME" ]
-then
-    echo "Error : File Already Exist"
-else
-    echo "import java.io.*;
-
-class Main {
+public class _1401A {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = true;
+    static boolean local_system = false;
 
     void run() throws IOException {
-      
+        int t = i();
+        while(t-->0){
+            int[] c = ni();
+            if(c[1] >= c[0]){
+                writer.println(c[1]-c[0]);
+            }
+            else{
+                if((c[1]%2)!=(c[0]%2)) writer.println(1);
+                else writer.println(0);
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Main obj = new Main();
+        _1401A obj = new _1401A();
         obj.run();
         long end_time = System.currentTimeMillis();
-        if (local_system) obj.writer.println(\"Time : \" + (end_time - start_time));
+        if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Main(){
+    public _1401A(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -50,14 +44,14 @@ class Main {
     }
 
     public int[] ni() throws IOException {
-        String[] data = bf.readLine().split(\" \");
+        String[] data = bf.readLine().split(" ");
         int[] send = new int[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
         return send;
     }
 
     public long[] nl() throws IOException {
-        String[] data = bf.readLine().split(\" \");
+        String[] data = bf.readLine().split(" ");
         long[] send = new long[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
         return send;
@@ -70,7 +64,4 @@ class Main {
     }
 }
 
-" > "$FILE_NAME"
 
-echo "" > "$INPUT_FILE"
-fi
