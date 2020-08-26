@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Climbing_Stairs_Test {
     BufferedReader bf;
@@ -11,29 +12,41 @@ public class Climbing_Stairs_Test {
 
     void run() throws IOException {
         Random random = new Random();
-        int test_b = 10;
-        int test_n = 30;
+        int test_b = 100000;
+        long text_n = 1_000_000_000_000_000_000L;
         
        
         
         String folder = "./test/";
 
-        int file = 10;
+        int file = 15;
         
-        int i = 4;
+        int i = 0;
+
+        
         
         while(file-->0){
             int t = random.nextInt(test_b) + 1;
             StringBuilder sb = new StringBuilder();
             sb.append(t).append("\n");
             while(t-->0){
-                sb.append(random.nextInt(test_n) + 1).append("\n");
+                sb.append(ThreadLocalRandom.current().nextLong(text_n) + 1).append("\n");
             }
-            PrintWriter printWriter = new PrintWriter(folder+"test_"+(++i)+".txt");
+            PrintWriter printWriter = new PrintWriter(folder+"input"+(getNum(i))+".txt");
             printWriter.print(sb.toString().trim());
             printWriter.flush();
             printWriter.close(); 
+            i++;
+        }
     }
+
+        String getNum(int i){
+            StringBuilder sb = new StringBuilder();
+            if(i/10==0){
+                sb.append(0);
+            }
+            sb.append(i);
+            return sb.toString().trim();
         }
         
 

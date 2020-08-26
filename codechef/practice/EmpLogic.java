@@ -7,7 +7,7 @@ class EmpLogic {
     static boolean local_system = true;
 
     void run() throws IOException {
-        int t = i
+
     }
 
     public static void main(String[] args) throws IOException {

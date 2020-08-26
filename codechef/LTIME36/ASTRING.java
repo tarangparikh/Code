@@ -18,6 +18,7 @@ class ASTRING {
         while(t>n-1) --t;
         char[] r = new char[n];
         System.arraycopy(s, 0, r, 0, r.length);
+        return new String(r);
     }
 
     void run() throws IOException {

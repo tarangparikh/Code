@@ -1,48 +1,28 @@
 import java.io.*;
-import java.util.*;
 
-class Solution {
+class Main {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void solve(String[] d,int[] p,int[] w){
-        System.out.println(Arrays.toString(d));
-
-        HashMap<Integer,HashMap<Integer,HashSet<String>>> map = new HashMap<>();
-        for(int i = 0,h=d.length;i<h;i++){
-            if(!map.containsKey(p[i])){
-                map.put(p[i],new HashMap<>());
-            }
-            HashMap<Integer,>map.get(p[i]);
-        }
-    }
-
     void run() throws IOException {
-        int t = i();
-        String[] d = new String[t];
-        for(int i = 0,h=d.length;i<h;i++) d[i] = bf.readLine().trim();
-        t = i();
-        int[] p = new int[t];
-        for(int i = 0;i<t;i++) p[i] = i();
-        t = i();
-        int[] w = new int[t];
-        for(int i = 0;i<t;i++) w[i] = i();
-        solve(d,p,w);
-
-    }
+        char[] d = bf.readLine().trim().toCharArray();
+        int v = 0;
+        for(char e : d) v=(v+(e-'0'))%9;
+        writer.print(v == 0 ? "Yes" : "No");
+    }   
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Solution obj = new Solution();
+        Main obj = new Main();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Solution(){
+    public Main(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -70,9 +50,10 @@ class Solution {
         return send;
     }
 
-    public void close() {
+    public void close() throws IOException{
         writer.flush();
         writer.close();
+        bf.close();
     }
 }
 

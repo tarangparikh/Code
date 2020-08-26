@@ -81,12 +81,12 @@ public class Climbing_Stairs {
             final BufferedReader bf = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
             int t = Integer.parseInt(bf.readLine().trim());
             final StringBuilder sb = new StringBuilder();
-            int count = Integer.parseInt(f.getName().trim().split("_")[1].split("[.]")[0]);
+            String suff = f.getName().split("input")[1].split("[.]")[0];
             while (t-- > 0) {
-                final int n = Integer.parseInt(bf.readLine().trim());
+                final long n = Long.parseLong(bf.readLine().trim());
                 sb.append(solve(n)).append("\n");
             }
-            final PrintWriter printWriter = new PrintWriter(folder + "output_" + (count) + ".txt");
+            final PrintWriter printWriter = new PrintWriter(folder + "output" + (suff) + ".txt");
             printWriter.append(sb.toString().trim());
             printWriter.flush();
             printWriter.close();
