@@ -6,6 +6,26 @@ public class Triangle {
     PrintWriter writer;
     StringBuilder sb;
 
+    public int longest(int[] data) {
+        Arrays.sort(data);
+        int n = data.length;
+        int max = Math.min(data.length, 0);
+        for (int i = 2; i < n; i++) {
+            int ind = Arrays.binarySearch(data,i,data.length,data[i-1] + data[i-2]);
+            if(ind < 0) ind = - (ind + 1) - 1;
+            if (ind - i + 3 > max) {
+                max = ind - i + 3;
+            }
+        }
+        return max;
+    }
+    public int[] get(int[] d){
+        Arrays.sort(d);
+        while(t-->0)
+
+        return null;
+    }
+
     int solve(int[] d){
         int n = d.length;
         int[][] data = new int[n][];
@@ -39,7 +59,7 @@ public class Triangle {
         int n = i();
 
         int[] d = ni();
-        writer.println(solve(d));
+        writer.println(longest(d));
 
     }
 

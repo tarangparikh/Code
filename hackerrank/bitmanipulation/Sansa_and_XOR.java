@@ -1,56 +1,39 @@
 import java.io.*;
-import java.util.Arrays;
 
-public class AliceBob {
+public class Sansa_and_XOR {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = true;
-
-    long mod = 1_000_000_007L;
-
-    long pow(long a,long b){
-        long p = 1L;
-        for(;b>0;a=a*a%mod,b>>=1)
-            if((b&1) == 1) p=p*a%mod;
-        return p;
-    }
-
-    long[][] fif(int n){
-        long[][] fif = new long[2][n+1];
-        fif[1][0] = fif[0][0] = 1;
-        for(int i = 1,h=fif[0].length;i<h;i++){
-            fif[0][i] = i * fif[0][i-1] % mod;
-            fif[1][i] = pow(fif[0][i],mod - 2);
-        }
-        return fif;
-    }
+    static boolean local_system = false;
 
     void run() throws IOException {
         int t = i();
-        long[][] fif = fif(1000000<<1);
         while(t-->0){
-            int[] c = ni();
-            int times = c[0] - c[1] + 1;
-            int start= c[2] - 1;
-            long sum = 0L;
-            for(int i = 0;i<times;i++){
-                sum = (sum + ((fif[0][start + i] * ((fif[1][start] * fif[1][i])%mod))%mod))%mod;;
+            i(); int[] d = ni();
+            if(d.length % 2 == 0){
+                writer.println(0);
+                continue;
             }
-            writer.println(sum);
+            int i = d.length - 1;
+            long xor = 0l;
+            while(i>=0){
+                xor ^= d[i];
+                i-=2;
+            }
+            writer.println(xor);
         }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        AliceBob obj = new AliceBob();
+        Sansa_and_XOR obj = new Sansa_and_XOR();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public AliceBob(){
+    public Sansa_and_XOR(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -84,3 +67,5 @@ public class AliceBob {
         bf.close();
     }
 }
+
+

@@ -1,13 +1,14 @@
 import java.io.*;
 import java.util.Arrays;
 
-public class AliceBob {
+
+public class _1397B {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = true;
+    static boolean local_system = false;
 
-    long mod = 1_000_000_007L;
+    static long mod = (1L<<61) - 1;
 
     long pow(long a,long b){
         long p = 1L;
@@ -16,41 +17,37 @@ public class AliceBob {
         return p;
     }
 
-    long[][] fif(int n){
-        long[][] fif = new long[2][n+1];
-        fif[1][0] = fif[0][0] = 1;
-        for(int i = 1,h=fif[0].length;i<h;i++){
-            fif[0][i] = i * fif[0][i-1] % mod;
-            fif[1][i] = pow(fif[0][i],mod - 2);
+    long sum(int[] d,int min){
+        long sum = 0;
+        int i = 0;
+        for(int e : d){
+            long aa  = pow(min,i);
+            //writer.println(aa+" "+i);
+            long bb = e;
+            sum += Math.abs(aa - bb);
+            i++;
         }
-        return fif;
+        return sum;
     }
 
     void run() throws IOException {
-        int t = i();
-        long[][] fif = fif(1000000<<1);
-        while(t-->0){
-            int[] c = ni();
-            int times = c[0] - c[1] + 1;
-            int start= c[2] - 1;
-            long sum = 0L;
-            for(int i = 0;i<times;i++){
-                sum = (sum + ((fif[0][start + i] * ((fif[1][start] * fif[1][i])%mod))%mod))%mod;;
-            }
-            writer.println(sum);
-        }
+        int n = i(); int[] d = ni();
+        Arrays.sort(d);
+        int a = (int)Math.ceil(Math.pow(d[d.length - 1],(1d/((double)n-1))));
+        int b = a-1;
+        writer.println(Math.min(sum(d,a),sum(d,b)));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        AliceBob obj = new AliceBob();
+        _1397B obj = new _1397B();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public AliceBob(){
+    public _1397B(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -84,3 +81,5 @@ public class AliceBob {
         bf.close();
     }
 }
+
+

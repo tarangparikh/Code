@@ -1,56 +1,62 @@
 import java.io.*;
 import java.util.Arrays;
 
-public class AliceBob {
+public class _2_s_complement {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = true;
 
-    long mod = 1_000_000_007L;
+    long[] dp = precompute();
 
-    long pow(long a,long b){
-        long p = 1L;
-        for(;b>0;a=a*a%mod,b>>=1)
-            if((b&1) == 1) p=p*a%mod;
-        return p;
-    }
-
-    long[][] fif(int n){
-        long[][] fif = new long[2][n+1];
-        fif[1][0] = fif[0][0] = 1;
-        for(int i = 1,h=fif[0].length;i<h;i++){
-            fif[0][i] = i * fif[0][i-1] % mod;
-            fif[1][i] = pow(fif[0][i],mod - 2);
+    long[] precompute(){
+        long[] dp = new long[33];
+        long pow = 1L;
+        for(int i = 1,h=dp.length;i<h;pow<<=1,i++){
+            dp[i]  = dp[i-1]<<1;
+            dp[i] += pow;
         }
-        return fif;
+        return dp;
     }
+
+    long compute(long a){
+        if(a<0) return compute((1L<<32) - 1) - compute((1L<<32) - (-a)) ;
+        long len = 0;
+        long temp = a;
+        for(;temp>0;temp>>=1) 
+            if((temp & 1) == 1) len++;
+        long count = len;
+
+        long pow = 1L<<32;
+        for(int i = 0;a>0;a>>=1,i++){
+            if((a & 1) == 1){
+                count += (pow * len) + dp[i];
+                len--;
+            }
+            pow>>=1;
+        }
+        return count;
+    }
+
+
+    
+
+    
 
     void run() throws IOException {
-        int t = i();
-        long[][] fif = fif(1000000<<1);
-        while(t-->0){
-            int[] c = ni();
-            int times = c[0] - c[1] + 1;
-            int start= c[2] - 1;
-            long sum = 0L;
-            for(int i = 0;i<times;i++){
-                sum = (sum + ((fif[0][start + i] * ((fif[1][start] * fif[1][i])%mod))%mod))%mod;;
-            }
-            writer.println(sum);
-        }
+        writer.println(compute(7));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        AliceBob obj = new AliceBob();
+        _2_s_complement obj = new _2_s_complement();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public AliceBob(){
+    public _2_s_complement(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -84,3 +90,5 @@ public class AliceBob {
         bf.close();
     }
 }
+
+
