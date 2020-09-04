@@ -9,23 +9,13 @@ public class _1397A {
     void run() throws IOException {
         int t = i();
         while(t-->0){
-            int n = i();
-            char[][] d = new char[n][];
-            for(int i = 0;i<n;i++) d[i] = bf.readLine().trim().toCharArray();
-            int[] hash = new int[26]; 
-            for(char[] dd : d){
-                for(char e : dd){
-                    hash[e - 'a']++;
-                }
-            }
-            boolean notFound = false;
-            for(int e : hash){
-                if(e % n != 0){
-                    notFound  = true;
-                    break;
-                }
-            }
-            writer.println(notFound ? "NO" : "YES");
+            int n = i(); int[] h = new int[26];
+            for(int i = 0;i<n;i++)
+                for(char e : bf.readLine().trim().toCharArray())
+                    h[e - 'a']++;
+            boolean f = true;
+            for(int e : h) f&=e%n==0;
+            writer.println(f ? "YES" : "NO");
         }
     }
 
