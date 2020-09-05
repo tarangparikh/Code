@@ -1,34 +1,48 @@
 import java.io.*;
 
-public class _1397A {
+public class MinimumCandles {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
+    int solve(int[] data,int b){
+        int possible = -1;
+        int ans = 0;
+        int n = data.length;
+		while(true){
+			int or = possible;
+			for(int i = Math.min(n-1, possible+b);i > possible-(b-1) && i >= 0;i--){
+				if(data[i] == 1){
+                    possible = i+b-1;
+                    T
+					ans++;
+					break;
+				}
+			}
+			if(or == possible) return -1;
+			if(possible >= n-1) break;
+			
+		}
+		return ans;
+    }
+
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
-        }
+        int[] d = new int[]{0,0,0,1,0};
+        int k = 3;
+        writer.println(solve(d, k));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        MinimumCandles obj = new MinimumCandles();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public MinimumCandles(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,3 +76,5 @@ public class _1397A {
         bf.close();
     }
 }
+
+

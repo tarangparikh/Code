@@ -1,64 +1,71 @@
 import java.io.*;
 
-public class _1397A {
+public class _5494 {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = false;
+    static boolean local_system = true;
+
+    int ways(int[] d,int start,int end,int f){
+        if(start == end) return 1 + ways(d, start, end, f);
+        int count = 0;
+        for(int i = 0,h=d.length;i<h;i++){
+            
+            if(i!=start){
+                if(Math.abs(d[i] - d[start]) <= f){
+                    count += ways(d,i,end,f - Math.abs(d[i] - d[start]));
+                }
+            }
+        }
+        return count;
+    }
 
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
-        }
+        int[] d = new int[]{4,3,1};
+        writer.println(ways(d,2,0,3));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        _5494 obj = new _5494();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public _5494(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
     }
 
-    public int i() throws IOException {
+    public int getInt() throws IOException {
         return Integer.parseInt(bf.readLine());
     }
 
-    public long l() throws IOException {
+    public long getLong() throws IOException {
         return Long.parseLong(bf.readLine());
     }
 
-    public int[] ni() throws IOException {
+    public int[] ints() throws IOException {
         String[] data = bf.readLine().split(" ");
         int[] send = new int[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
         return send;
     }
 
-    public long[] nl() throws IOException {
+    public long[] longs() throws IOException {
         String[] data = bf.readLine().split(" ");
         long[] send = new long[data.length];
         for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
         return send;
     }
 
-    public void close() throws IOException{
+    public void close() {
         writer.flush();
         writer.close();
-        bf.close();
     }
 }
+
+

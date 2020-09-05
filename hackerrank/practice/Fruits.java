@@ -1,34 +1,37 @@
 import java.io.*;
 
-public class _1397A {
+public class Fruits {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = false;
+    static boolean local_system = true;
+
+    long solve(long[] d){
+        long[] dp = d;
+        int n = dp.length;
+        if(n == 1) return dp[0];
+        dp[1] = Math.max(dp[1],dp[0]);
+        for(int i = 2,h=dp.length;i<h;i++){
+            dp[i] =  Math.max(dp[i-1],dp[i] + dp[i-2]);
+        }
+        return Math.max(dp[dp.length-1],dp[dp.length-2]);
+
+    }
 
     void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
-        }
+        writer.println(solve(nl()));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        Fruits obj = new Fruits();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public Fruits(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,3 +65,5 @@ public class _1397A {
         bf.close();
     }
 }
+
+

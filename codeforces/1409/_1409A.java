@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class _1397A {
+public class _1409A {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
@@ -9,26 +9,23 @@ public class _1397A {
     void run() throws IOException {
         int t = i();
         while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
+            int[] c = ni();
+            int steps = Math.abs(c[0] - c[1]);
+            steps = steps % 10 == 0 ? steps / 10 : steps / 10 + 1;
+            writer.println(steps);
         }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        _1409A obj = new _1409A();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public _1409A(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,3 +59,5 @@ public class _1397A {
         bf.close();
     }
 }
+
+

@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class _1397A {
+public class _1409C {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
@@ -9,26 +9,48 @@ public class _1397A {
     void run() throws IOException {
         int t = i();
         while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
+            long[] c = nl();
+            int n = (int)c[0];
+            long x = c[1];
+            long y = c[2];
+            long diff = y-x;
+            long last_min = Long.MAX_VALUE;
+            long first_min = Long.MAX_VALUE - n + 1;
+            for(int i = n;i>=2;i--){
+                for(int j = i-1;j>=1;j--){
+                    int gap = i - j;
+                    if(diff%gap == 0){
+                        long d = diff / gap;
+                        long last = (n - i) * d + y;
+                        long first = x - (j - 1) * d;
+                        if(first > 0 && last < last_min){
+                            last_min  = last;
+                            first_min = first;
+                        }
+                    }
+                }
+            }
+            long d = (last_min - first_min) / (n-1);
+            int i = 0;
+            while(i < n){
+                writer.print(first_min+" ");
+                first_min += d;
+                i++;
+            }
+            writer.println();
         }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        _1409C obj = new _1409C();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public _1409C(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,3 +84,5 @@ public class _1397A {
         bf.close();
     }
 }
+
+

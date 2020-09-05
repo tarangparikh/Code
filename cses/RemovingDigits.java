@@ -1,34 +1,44 @@
 import java.io.*;
+import java.util.Arrays;
 
-public class _1397A {
+public class RemovingDigits {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void run() throws IOException {
-        int t = i();
-        while(t-->0){
-            int n = i(); int[] h = new int[26];
-            for(int i = 0;i<n;i++)
-                for(char e : bf.readLine().trim().toCharArray())
-                    h[e - 'a']++;
-            boolean f = true;
-            for(int e : h) f&=e%n==0;
-            writer.println(f ? "YES" : "NO");
+    boolean valid(int n,int x){
+        while(n > 0){
+            if(n % 10 == x) return true;
+            n /= 10;
         }
+        return false;
+    }
+
+    void run() throws IOException {
+        int[] dp = new int[1000010];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[0] = 0;
+        for(int i = 0;i<1000001;i++){
+            for(int j = 1;j<=9;j++){
+                if(valid(i + j,j)){
+                    dp[i + j] = Math.min(dp[i+j],1 + dp[i]);
+                }
+            }
+        }
+        writer.println(dp[i()]);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1397A obj = new _1397A();
+        RemovingDigits obj = new RemovingDigits();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1397A(){
+    public RemovingDigits(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,3 +72,5 @@ public class _1397A {
         bf.close();
     }
 }
+
+
