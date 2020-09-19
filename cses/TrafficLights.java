@@ -1,47 +1,50 @@
 import java.io.*;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.TreeSet;
 
-public class Towers {
+public class TrafficLights {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
     void run() throws IOException {
-        int n = i();
+        int[] c = ni();
+        TreeSet<Integer> set = new TreeSet<>();
+        TreeMap<Integer,Integer> map = new TreeMap<>((a,b) -> b-a);
+        map.put(c[0], 1);
+        set.add(0);
+        set.add(c[0]);
         int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+        for(int i = 0;i<c[1];i++){
+            if(!set.contains(d[i])){
+                int l = set.lower(d[i]);
+                int h = set.higher(d[i]);
+                int len = h - l;
+                int value = map.get(len);
+                if(value == 1) map.remove(len);
+                else map.put(len, value-1);
+                int a = d[i] - l;
+                int b = h - d[i];
+                map.put(a, map.getOrDefault(a, 0) + 1);
+                map.put(b, map.getOrDefault(b, 0) + 1);
+                set.add(d[i]);
             }
+            //writer.println(map);
+            writer.print(map.firstKey()+" ");
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        TrafficLights obj = new TrafficLights();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public TrafficLights(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

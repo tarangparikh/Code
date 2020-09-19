@@ -1,47 +1,48 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.Arrays;
 
-public class Towers {
+public class MovieFestival {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
+    int bs1(int[][] d,int i,int j,int v){
+        int mid = (i+j) >> 1;
+        while(i < j){
+            mid = (i+j)>>1;
+            if(v <= d[mid][0]) j=mid;
+            else i = mid+1;
+        }
+        mid = (i + j) >> 1;
+        return d[mid][0] == v ? mid : d[mid][0] < v ? -mid - 2 : -mid - 1;
+    }
+
     void run() throws IOException {
         int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
-            }
-        }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
+        int[][] d = new int[n][];
+        for(int i = 0;i<n;i++) d[i] = ni();
+        Arrays.sort(d,(a,b) -> a[0] - b[0]);
+        int[] max_till = new int[n + 1]; 
+        for(int i = n-1 ;i>=0;i--){
+            int index = bs1(d,i + 1,n - 1,d[i][1]);
+            if(index  < 0) index = -(index + 1);
+            max_till[i] = Math.max(1 + max_till[index],max_till[i+1]);
+        } 
+        //writer.println(Arrays.toString(dp));
+        writer.println(max_till[0]);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        MovieFestival obj = new MovieFestival();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public MovieFestival(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

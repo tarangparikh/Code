@@ -1,9 +1,8 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
-public class Towers {
+public class RoomAllocation {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
@@ -11,37 +10,56 @@ public class Towers {
 
     void run() throws IOException {
         int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
+        int[][] q = new int[n][];
         for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
+            q[i] = ni();
+            int[] t = new int[]{q[i][0] , q[i][1] , i};
+            q[i] = t;
+        }
+        Arrays.sort(q,(a,b) -> {
+            if(a[0] == b[0]) return a[1] - b[1];
+            else return a[0] - b[0];
+        });
+        //writer.println(Arrays.deepToString(q));
+        PriorityQueue<int[]> que = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+        PriorityQueue<Integer> free = new PriorityQueue<>();
+        int total = 0;
+        int[] allotment = new int[n];
+        for(int[] g : q){
+            // for(int[] e : que){
+            //     writer.print(Arrays.toString(e)+" ");
+            // }
+            // writer.println();
+            // writer.println("Free : "+free);
+            int arr = g[0];
+            while(!que.isEmpty() && que.peek()[0] < arr) free.add(que.poll()[1]);
+            if(free.isEmpty()){
+                total+=1;
+                que.add(new int[]{g[1],total});
+                allotment[g[2]] = total;
             }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+                que.add(new int[]{g[1],free.peek()});
+                allotment[g[2]] = free.poll();
             }
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
+        writer.println(total);
+        for(int e : allotment){
+            writer.print(e + " ");
         }
-        writer.println(count);
+        writer.println();
+
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        RoomAllocation obj = new RoomAllocation();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public RoomAllocation(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -75,5 +93,3 @@ public class Towers {
         bf.close();
     }
 }
-
-

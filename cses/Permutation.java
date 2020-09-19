@@ -1,9 +1,6 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
-public class Towers {
+public class Permutation {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
@@ -11,37 +8,31 @@ public class Towers {
 
     void run() throws IOException {
         int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+        if(n == 2 || n == 3){
+            writer.println("NO SOLUTION");
+        }else if(n == 4){
+            writer.println("3 1 4 2");
+        }else{
+            for(int i = 1;i<=n;i+=2){
+                writer.print(i+" ");
             }
+            for(int i = 2;i<=n;i+=2){
+                writer.print(i+" ");
+            }
+            writer.println();
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        Permutation obj = new Permutation();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public Permutation(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

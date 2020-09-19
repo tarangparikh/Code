@@ -1,47 +1,46 @@
 import java.io.*;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.TreeSet;
 
-public class Towers {
+public class ConcertTickets {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
     void run() throws IOException {
-        int n = i();
+        int[] c = ni();
+        int n = c[0];
+        int m = c[1];
         int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+        int[] t = ni();
+        TreeMap<Integer,Integer> map = new TreeMap<>();
+        for(int e : d){
+            map.put(e,map.getOrDefault(e,0) + 1);
+        }
+        for(int e : t){
+            Map.Entry<Integer, Integer> entry = map.floorEntry(e);
+            if(entry == null) sb.append(-1).append("\n");
+            else{
+                sb.append(entry.getKey()).append("\n");
+                if(entry.getValue() == 1) map.remove(entry.getKey());
+                else map.put(entry.getKey(),entry.getValue() - 1);
             }
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
+        writer.println(sb);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        ConcertTickets obj = new ConcertTickets();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public ConcertTickets(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

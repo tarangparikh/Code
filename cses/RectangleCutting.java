@@ -1,47 +1,44 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
 
-public class Towers {
+public class RectangleCutting {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
     void run() throws IOException {
-        int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+        int[] c = ni();
+        int n = c[0];
+        int m = c[1];
+        int INF = 1_000_000_007;
+        int[][] dp = new int[n + 1][m + 1];
+        for(int i = 1;i<=n;i++){
+            for(int j = 1;j<=m;j++){
+                if( i == j ) continue;
+                int a = 1;
+                int b = i - 1;
+                dp[i][j] = INF;
+                while(a <= b)
+                    dp[i][j] = Math.min(1 + dp[a++][j] + dp[b--][j],dp[i][j]);
+                a = 1;
+                b = j - 1;
+                while(a <= b)
+                    dp[i][j] = Math.min(1 + dp[i][a++] + dp[i][b--],dp[i][j]);
             }
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
+        writer.println(dp[n][m]);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        RectangleCutting obj = new RectangleCutting();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public RectangleCutting(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

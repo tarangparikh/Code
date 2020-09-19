@@ -1,47 +1,61 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.Arrays;
 
-public class Towers {
+public class ArrayDescription {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
+    long mod = 1_000_000_007;
+
     void run() throws IOException {
-        int n = i();
+        int[] c = ni();
+        int n = c[0];
+        int m = c[1];
         int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+        long[][] dp = new long[2][m + 2];
+        
+       
+        if(d[0] == 0){
+            Arrays.fill(dp[0], 1);
+            dp[0][0] = 0;
+            dp[0][m + 1] = 0;
+        }else{
+            dp[0][d[0]] = 1;
+        }
+        
+        for(int i = 1,h=d.length;i<h;i++){
+            for(int j = 1;j<=m;j++)
+                    dp[1][j] = (dp[0][j] + dp[0][j-1] + dp[0][j + 1]) % mod;
+            
+            long[] t = dp[0];
+            dp[0] = dp[1];
+            dp[1] = t;
+                
+            int r = d[i];
+            if(r!=0){
+                for(int j = 1;j<=m;j++)
+                    if( r != j) dp[0][j] = 0;
             }
+            //writer.println(Arrays.toString(dp[0]));    
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
+
+        long sum = 0;
+        for(long e : dp[0]) sum = (sum + e) % mod;
+        writer.println(sum);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        ArrayDescription obj = new ArrayDescription();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public ArrayDescription(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

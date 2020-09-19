@@ -1,47 +1,53 @@
 import java.io.*;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
-public class Towers {
+public class Fraction {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
+    private int gcd(int a,int b){
+        if(b==0) return a;
+        return gcd(b,a%b);
+    }
+
+    int solve(int[] x,int[] y){
+        for(int i = 0,h=x.length;i<h;i++){
+            int gcd = gcd(x[i], y[i]);
+            x[i]/=gcd;
+            y[i]/=gcd;
+        }
+        TreeMap<int[],Integer> hash = new TreeMap<>((a,b) -> {
+            if(a[0] == b[0]) return a[1] - b[1];
+            else return a[0] - b[0];
+        });
+        int max = 1;
+        for(int i = 0,h=x.length;i<h;i++){
+            int[] key = new int[]{x[i],y[i]};
+            int value = hash.getOrDefault(key, 0) + 1;
+            max = Math.max(value,max);
+            hash.put(key, hash.getOrDefault(key, 0) + 1);
+        }
+        return max;
+    }
+
     void run() throws IOException {
-        int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
-        for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
-            }
-        }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
+        int[] x = {1,2};
+        int[] y = {1,2};
+        writer.println(solve(x, y));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        Fraction obj = new Fraction();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public Fraction(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

@@ -1,47 +1,83 @@
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
+import java.util.Arrays;
 
-public class Towers {
+public class BuildingRoads {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
+    class DJSet {
+        public int[] upper;
+    
+        public DJSet(int n) {
+            upper = new int[n];
+            Arrays.fill(upper, -1);
+        }
+    
+        public int root(int x) {
+            return upper[x] < 0 ? x : (upper[x] = root(upper[x]));
+        }
+    
+        public boolean equiv(int x, int y) {
+            return root(x) == root(y);
+        }
+    
+        public boolean union(int x, int y) {
+            x = root(x);
+            y = root(y);
+            if (x != y) {
+                if (upper[y] < upper[x]) {
+                    int d = x;
+                    x = y;
+                    y = d;
+                }
+                upper[x] += upper[y];
+                upper[y] = x;
+            }
+            return x == y;
+        }
+    
+        public int count() {
+            int ct = 0;
+            for (int u : upper)
+                if (u < 0)
+                    ct++;
+            return ct;
+        }
+    }
+    
+
     void run() throws IOException {
-        int n = i();
-        int[] d = ni();
-        TreeMap<Integer,Integer> hash = new TreeMap<>();
+        int[] c = ni();
+        int n = c[0];
+        int m = c[1];
+        DJSet dSet = new DJSet(n);
+        for(int i = 0;i<m;i++){
+            int[] e = ni();
+            dSet.union(--e[0],--e[1]);
+        }
+        int p = -1;
+        writer.println(dSet.count() - 1);
         for(int i = 0;i<n;i++){
-            Entry<Integer,Integer> entry = hash.higherEntry(d[i]);
-            if(entry == null){
-                hash.put(d[i], hash.getOrDefault(d[i],0)+1);
-            }else{
-                int key = entry.getKey();
-                int new_key = d[i];
-                if(entry.getValue() == 1) hash.remove(key);
-                else hash.put(key, entry.getValue() - 1);
-                hash.put(new_key, hash.getOrDefault(new_key, 0) + 1);
+            if(dSet.upper[i] < 0){
+                if(p!=-1)
+                    writer.println((p+1) + " " + (i + 1));
+                p = i;
             }
         }
-        long count = 0;
-        for(Entry<Integer,Integer> entry  : hash.entrySet()){
-            count += entry.getValue();
-        }
-        writer.println(count);
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        Towers obj = new Towers();
+        BuildingRoads obj = new BuildingRoads();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public Towers(){
+    public BuildingRoads(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
