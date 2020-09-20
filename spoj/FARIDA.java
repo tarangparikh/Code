@@ -6,6 +6,8 @@ class Main {
     StringBuilder sb;
     static boolean local_system = false;
 
+    
+
     void run() throws IOException {
         int t = i();
         long sum = 0;

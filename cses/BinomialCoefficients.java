@@ -6,29 +6,34 @@ public class BinomialCoefficients {
     StringBuilder sb;
     static boolean local_system = true;
 
-    long mod = 1_000_000_007;
+    long mod = 1_000_000_007L;
 
     long pow(long a,long b){
-        long p = 1l;
-        for(;b>0;a=a*a%mod;b>>=1){
-            if((b&1)==1) p=p*a%mod;
-        }
+        long p = 1L;
+        for(;b>0;a=a*a%mod,b>>=1)
+            if((b&1) == 1) p=p*a%mod;
         return p;
     }
 
     long[][] fif(int n){
-        long[][] fif = new long[2][n];
-        fif[0][0] = 1;
-        fif[1][0] = 1;
-        for(int i = 0 ; i < n ;i++){
-            fif[0][i] = i*fif[0][i-1]%mod;
-            fif[1][i] = pow(fif[0][i] , mod - 2);
+        long[][] fif = new long[2][n+1];
+        fif[1][0] = fif[0][0] = 1;
+        for(int i = 1,h=fif[0].length;i<h;i++){
+            fif[0][i] = i * fif[0][i-1] % mod;
+            fif[1][i] = pow(fif[0][i],mod - 2);
         }
         return fif;
     }
 
     void run() throws IOException {
-        
+        long[][] fif = fif(1000001);
+        int t = i();
+        while(t-->0){
+            int[] c = ni();
+            long ans = (fif[0][c[0]] * ((fif[1][c[0] - c[1]]*fif[1][c[1]])%mod))%mod;
+            sb.append(ans).append("\n");
+        }
+        writer.println(sb.toString().trim());
     }
 
     public static void main(String[] args) throws IOException {

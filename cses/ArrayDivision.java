@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Arrays;
 
 public class ArrayDivision {
     BufferedReader bf;
@@ -6,14 +7,50 @@ public class ArrayDivision {
     StringBuilder sb;
     static boolean local_system = false;
 
-    long solve(int[] d,int i,int k){
-      
+    
+    /**
+     * 1 2 3 1 8
+     * 
+     * 
+     * @throws IOException
+     */
+
+    int count(int[] d,long m){
+        long sum = 0;
+        int count = 0;
+        for(int e : d){
+            if(sum + e > m){
+                count++;
+                sum = 0;
+            }
+            sum+=e;
+        }
+        return count + 1;
     }
 
+
+
     void run() throws IOException {
-        int[] d = ni();
         int[] c = ni();
-       
+        
+        int x = c[1];
+        int[] d = ni();
+        long l = d[0];  
+        long r = 0;
+        for(int e : d){
+            r+=e;
+            l=Math.max(e,l);
+        }
+
+        while(l < r){
+            long mid = (l + r) >> 1;
+            int count = count(d,mid);
+            
+            if( x >= count) r = mid;
+            else l = mid + 1;
+        }
+
+        writer.println(l);
     }
 
     public static void main(String[] args) throws IOException {
