@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class App {
@@ -44,22 +46,36 @@ public class App {
         }
     }
     
+    void merge(int[] data,int a,int b,int c){
+        int[] temp = new int[c - a + 1];
+        int i = a;
+        int j = b;
+        int k = 0;
+        while(i < b && j <= c)  temp[k++] = data[i] < data[j] ? data[i++] : data[j++];
+        while(i < b) temp[k++] = data[i++];
+        while(j <= c) temp[k++] = data[j++];
+        while(k-->0) data[a + k] = temp[k];
+    }
+    void sort(int[] data,int i,int j){
+        if(j - i + 1 <= 1) return;
+        int mid = (i + j) >> 1;
+        System.out.println(i+" "+j);
+        sort(data,i,mid);
+        sort(data,mid+1,j);
+        merge(data, i, mid + 1, j);
 
-    void run() throws IOException {
-       double rate = 1.01;
-
-       double degrade = 1.004;
-       double current = rate / degrade;
-       double prev = 1;
-       double factor = 250000000;
-       for(int i = 0;i<180;i++){
-            writer.print(String.format("%.2f : %d ", factor * ((current - prev)/10) ,i+1));
-            prev = current - (current - prev) / 10;
-            writer.println("Priciple : "+prev * factor);
-            current = prev * rate / degrade;
-       }
+    }
+    void sort(int[] data){
+        int i = 0;
+        int j = data.length;
+        Stack<int[]> s = new Stack<>();
         
+    }
 
+    
+    void run() throws IOException {
+       int[] data = new int[]{9,8,7,6};
+       System.out.println(Arrays.toString(data));
     }
 
     public static void main(String[] args) throws IOException {
