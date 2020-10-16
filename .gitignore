@@ -2,4 +2,5 @@
 lib
 out
 *.iml
+*.out
 
