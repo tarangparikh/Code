@@ -1,0 +1,25 @@
+t t
+false
+a a
+false
+r r
+false
+a a
+false
+n n
+false
+g g
+false
+p p
+false
+a a
+false
+r r
+false
+i i
+false
+k k
+false
+h h
+false
+NO ERROR FOUND

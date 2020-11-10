@@ -74,8 +74,7 @@ class Main {
     }
 
     long compute(long[] a,long[][] dp){
-        if(a[0]==0) return compute(a[1],dp);
-        else return compute(a[1],dp) - compute(a[0]-1,dp);
+        return compute(a[1], dp) - (a[0] == 0 ? 0 : compute(a[0], dp));
     }
 
     void run() throws IOException {
