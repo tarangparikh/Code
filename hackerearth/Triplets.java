@@ -1,52 +1,65 @@
 import java.io.*;
 import java.util.Arrays;
 
-
-public class _1398D {
+public class Triplets {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void solve(int[] r,int[] g,int[] b){
-        Arrays.sort(r);
-        Arrays.sort(g);
-        Arrays.sort(b);
-        
-        long[][][] dp = new long[r.length + 1][g.length + 1][b.length + 1];
-        for(int i = 0,rr=r.length + 1;i<rr;i++){
-            for(int j = 0,gg=g.length + 1;j<gg;j++){
-                for(int k = 0,bb=b.length + 1;k<bb;k++){
-                    long m = 0;
-                    m = i-1>=0&&j-1>=0 ? Math.max(m,dp[i-1][j-1][k] + r[i-1]*g[j-1]) : m; 
-                    m = j-1>=0&&k-1>=0 ? Math.max(m,dp[i][j-1][k-1] + b[k-1]*g[j-1]) : m;
-                    m = i-1>=0&&k-1>=0 ? Math.max(m,dp[i-1][j][k-1] + r[i-1]*b[k-1]) : m;
-                    dp[i][j][k] = m;
-                }
+    void run() throws IOException {
+        int t = i();
+        while(t-->0){
+            int n = i();
+            int[] a = ni();
+            int[] b = ni();
+
+            int[] position = new int[n];
+            for(int i = 0;i<n;i++) position[a[i]-1] = i + 1; 
+            for(int i = 0;i<n;i++) a[i] = position[b[i] - 1];
+            
+            //writer.println(Arrays.toString(a));
+
+
+            long[] bit_1 = new long[n + 5];
+            long[] bit_2 = new long[n + 5];
+
+            int limit = n;
+
+            long sum = 0;
+            for(int i = n - 1;i>=0;i--){
+                long valid =  query(bit_2, limit) - query(bit_2, a[i]); 
+                long larger = query(bit_1, limit) - query(bit_1, a[i]);
+                // writer.print(larger+" ");
+                // writer.println(valid);
+                
+                sum+=valid;
+                update(bit_2, a[i], larger);
+                update(bit_1, a[i], 1);
             }
+            writer.println(sum);
+
+
         }
-        
-        writer.println(dp[r.length][g.length][b.length]);
     }
 
-    void run() throws IOException {
-        bf.readLine();
-        int[] r = ni();
-        int[] g = ni();
-        int[] b = ni();
-        solve(r,g,b);
+    void update(long[] bit,int i,long v){
+        int n = bit.length; for(++i;i<n;bit[i]+=v,i+=i&-i);
+    }
+    long query(long[] bit,int i){
+        long s = 0; for(++i;i>0;s+=bit[i],i-=i&-i); return s;
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1398D obj = new _1398D();
+        Triplets obj = new Triplets();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1398D(){
+    public Triplets(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

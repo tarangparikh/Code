@@ -5,13 +5,15 @@ import java.util.Arrays;
 public class BinarySeq {
     BufferedReader bf;
     
+    /**
+     * Version 2 
+     * 
+     * @throws IOException
+     */
     void run() throws IOException {
-        long[] dp = new long[40];
-        dp[0] = 1;
-        dp[1] = 2;
-      
-        for(int i = 2;i<dp.length;i++)
-            dp[i] = dp[i-1] + dp[i - 2];
+        long[] dp = new long[40]; dp[0] = 1; dp[1] = 2;
+        
+        for(int i = 2;i<dp.length;i++) dp[i] = dp[i-1] + dp[i - 2];
 
         int t = i();
         StringBuilder sb = new StringBuilder();

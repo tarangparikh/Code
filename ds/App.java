@@ -2,13 +2,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class App {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
-    static boolean local_system = true;
+    static boolean local_system = false;
 
     class Heap{
         int[] h;
@@ -44,22 +47,81 @@ public class App {
         }
     }
     
+    void merge(int[] data,int a,int b,int c){
+        int[] temp = new int[c - a + 1];
+        int i = a;
+        int j = b;
+        int k = 0;
+        while(i < b && j <= c)  temp[k++] = data[i] < data[j] ? data[i++] : data[j++];
+        while(i < b) temp[k++] = data[i++];
+        while(j <= c) temp[k++] = data[j++];
+        while(k-->0) data[a + k] = temp[k];
+    }
+    void sort(int[] data,int i,int j){
+        if(j - i + 1 <= 1) return;
+        int mid = (i + j) >> 1;
+        //System.out.println(i+" "+j);
+        sort(data,i,mid);
+        sort(data,mid+1,j);
+        merge(data, i, mid + 1, j);
 
+    }
+    void sort(int[] d){
+        int n = d.length;
+        int[] buffer = new int[n];
+        int limit = Integer.highestOneBit(n) << 1;
+        for(int i = 2;i<=limit;i<<=1){
+            //System.out.println("i : "+i);
+            for(int j = 0;j<n;j+=i){
+                int k = 0;
+                int a = j;
+                int b = j + (i >> 1);
+                if(b >= n) continue;
+                int alen = b;
+                int blen = Math.min(a + i, n);
+                //System.out.println(a+" "+b);
+                while(a < alen && b < blen) buffer[k++] = d[a] <= d[b] ? d[a++] : d[b++];
+                while(a < alen) buffer[k++] = d[a++];
+                while(b < blen) buffer[k++] = d[b++];
+                while(k-->0) d[j+k] = buffer[k];
+            }
+        }
+    }
+
+    boolean isSame(int[] a,int[] b){
+        if(a.length != b.length) return false;
+        for(int i = 0;i<a.length;i++)
+            if(a[i] != b[i]) return false;
+        return true;
+    }
     void run() throws IOException {
-       double rate = 1.01;
-
-       double degrade = 1.004;
-       double current = rate / degrade;
-       double prev = 1;
-       double factor = 250000000;
-       for(int i = 0;i<180;i++){
-            writer.print(String.format("%.2f : %d ", factor * ((current - prev)/10) ,i+1));
-            prev = current - (current - prev) / 10;
-            writer.println("Priciple : "+prev * factor);
-            current = prev * rate / degrade;
-       }
+        char[] chain_a = "tarangparikh".toCharArray();
+        char[] chain_b = "tarangparikh".toCharArray();
+        boolean error = false;
+        int block = -1;
+        int block_index = -1;
+        for(int i = 0;i<chain_a.length;i+=6){
+            for(int j = i;j<i+6;j++){
+                if(error = chain_a[j] != chain_b[j]){
+                    block = i;
+                    block_index = j;
+                    break;
+                }
+            }
+        }
+        if(!error) System.out.println("NO ERROR FOUND");
+        else System.out.println("ERROR FOUND, BLOCK : "+block+" INDEX :"+block_index);
         
+     }
 
+    String upperTriangle(int size,char character){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i<size;i++){
+            for(int j = 0,h=size - i - 1;j<h;j++) sb.append(' ');
+            for(int j = 0,h=(2*i + 1);j<h;j++) sb.append(character); 
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) throws IOException {

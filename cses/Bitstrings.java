@@ -1,52 +1,35 @@
 import java.io.*;
-import java.util.Arrays;
 
-
-public class _1398D {
+public class Bitstrings {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void solve(int[] r,int[] g,int[] b){
-        Arrays.sort(r);
-        Arrays.sort(g);
-        Arrays.sort(b);
-        
-        long[][][] dp = new long[r.length + 1][g.length + 1][b.length + 1];
-        for(int i = 0,rr=r.length + 1;i<rr;i++){
-            for(int j = 0,gg=g.length + 1;j<gg;j++){
-                for(int k = 0,bb=b.length + 1;k<bb;k++){
-                    long m = 0;
-                    m = i-1>=0&&j-1>=0 ? Math.max(m,dp[i-1][j-1][k] + r[i-1]*g[j-1]) : m; 
-                    m = j-1>=0&&k-1>=0 ? Math.max(m,dp[i][j-1][k-1] + b[k-1]*g[j-1]) : m;
-                    m = i-1>=0&&k-1>=0 ? Math.max(m,dp[i-1][j][k-1] + r[i-1]*b[k-1]) : m;
-                    dp[i][j][k] = m;
-                }
-            }
-        }
-        
-        writer.println(dp[r.length][g.length][b.length]);
+    long mod = 1_000_000_007;
+
+    long p(long a,long b){
+        long p = 1;
+        for(;b>0;a=a*a%mod,b>>=1)
+            if((b&1) == 1) p=p*a%mod;
+        return p;     
     }
 
     void run() throws IOException {
-        bf.readLine();
-        int[] r = ni();
-        int[] g = ni();
-        int[] b = ni();
-        solve(r,g,b);
+        int i = i();
+        writer.println(p(2,i));
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1398D obj = new _1398D();
+        Bitstrings obj = new Bitstrings();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1398D(){
+    public Bitstrings(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();

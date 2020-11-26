@@ -1,52 +1,68 @@
 import java.io.*;
-import java.util.Arrays;
+import java.util.Stack;
 
-
-public class _1398D {
+class PATHSUMS {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void solve(int[] r,int[] g,int[] b){
-        Arrays.sort(r);
-        Arrays.sort(g);
-        Arrays.sort(b);
-        
-        long[][][] dp = new long[r.length + 1][g.length + 1][b.length + 1];
-        for(int i = 0,rr=r.length + 1;i<rr;i++){
-            for(int j = 0,gg=g.length + 1;j<gg;j++){
-                for(int k = 0,bb=b.length + 1;k<bb;k++){
-                    long m = 0;
-                    m = i-1>=0&&j-1>=0 ? Math.max(m,dp[i-1][j-1][k] + r[i-1]*g[j-1]) : m; 
-                    m = j-1>=0&&k-1>=0 ? Math.max(m,dp[i][j-1][k-1] + b[k-1]*g[j-1]) : m;
-                    m = i-1>=0&&k-1>=0 ? Math.max(m,dp[i-1][j][k-1] + r[i-1]*b[k-1]) : m;
-                    dp[i][j][k] = m;
+    void run() throws IOException {
+        int t = i();
+        while(t-->0){
+            int n = i();
+            int[][] q = new int[n - 1][];
+            for(int i = 0,h=n-1;i<h;i++){
+                q[i] = ni();
+                q[i][0]--;
+                q[i][1]--;
+            }
+            int[][] g = packU(q, n);
+            int[] dp = new int[n];
+            Stack<int[]> s = new Stack<>();
+            s.push(new int[]{0, -1});
+            dp[0] = 1;
+            while(!s.isEmpty()){
+                int[] r = s.pop();
+                for(int e : g[r[0]]){
+                    if(e != r[1]){
+                        dp[e] = dp[r[0]] == 1 ? 2 : 1;
+                        s.push(new int[]{e , r[0]});
+                    }
                 }
             }
+            StringBuilder sb = new StringBuilder();
+            for(int e : dp) sb.append(e).append(" ");
+            writer.println(sb);
         }
-        
-        writer.println(dp[r.length][g.length][b.length]);
     }
 
-    void run() throws IOException {
-        bf.readLine();
-        int[] r = ni();
-        int[] g = ni();
-        int[] b = ni();
-        solve(r,g,b);
+    static int[][] packU(int[][] e,int n){
+        int[] q = new int[n];
+        int[][] g = new int[n][];
+        for(int[] ed : e) {
+            q[ed[0]]++;
+            q[ed[1]]++;
+        }
+        for(int i = 0;i<n;i++)
+            g[i] = new int[q[i]];
+        for(int[] ed : e){
+            g[ed[0]][--q[ed[0]]] = ed[1];
+            g[ed[1]][--q[ed[1]]] = ed[0];
+        }
+        return g;
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1398D obj = new _1398D();
+        PATHSUMS obj = new PATHSUMS();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1398D(){
+    public PATHSUMS(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -74,7 +90,7 @@ public class _1398D {
         return send;
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         writer.flush();
         writer.close();
         bf.close();

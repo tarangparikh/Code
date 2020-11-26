@@ -22,7 +22,7 @@ fi
 
 
 javac "$FILE_NAME"
-java "$CLASS_NAME" < "$INPUT_FILE" > "$OUTPUT_FILE"
+java "$CLASS_NAME" < "$INPUT_FILE" #> "$OUTPUT_FILE"
 rm "$CLASS_FILE"
-cat "$OUTPUT_FILE"
+#cat "$OUTPUT_FILE"
 echo ""

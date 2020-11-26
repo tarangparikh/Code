@@ -29,7 +29,6 @@ public class SortedSum {
             long less = query(bit_qunt,d[i]) + 1;
             long more = query(bit_sum,limit)-query(bit_sum,d[i])+mod%mod;
 
-            
             long add = d[i]*less%mod;
             add = add + more%mod;
             add = prev + add%mod;
@@ -40,8 +39,8 @@ public class SortedSum {
             update(bit_qunt,d[i],1l);
             update(bit_sum,d[i],d[i]);
             
-
         }
+
         writer.println(sum);
     }
 

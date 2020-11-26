@@ -1,52 +1,31 @@
 import java.io.*;
-import java.util.Arrays;
 
-
-public class _1398D {
+class WATMELON {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void solve(int[] r,int[] g,int[] b){
-        Arrays.sort(r);
-        Arrays.sort(g);
-        Arrays.sort(b);
-        
-        long[][][] dp = new long[r.length + 1][g.length + 1][b.length + 1];
-        for(int i = 0,rr=r.length + 1;i<rr;i++){
-            for(int j = 0,gg=g.length + 1;j<gg;j++){
-                for(int k = 0,bb=b.length + 1;k<bb;k++){
-                    long m = 0;
-                    m = i-1>=0&&j-1>=0 ? Math.max(m,dp[i-1][j-1][k] + r[i-1]*g[j-1]) : m; 
-                    m = j-1>=0&&k-1>=0 ? Math.max(m,dp[i][j-1][k-1] + b[k-1]*g[j-1]) : m;
-                    m = i-1>=0&&k-1>=0 ? Math.max(m,dp[i-1][j][k-1] + r[i-1]*b[k-1]) : m;
-                    dp[i][j][k] = m;
-                }
-            }
-        }
-        
-        writer.println(dp[r.length][g.length][b.length]);
-    }
-
     void run() throws IOException {
-        bf.readLine();
-        int[] r = ni();
-        int[] g = ni();
-        int[] b = ni();
-        solve(r,g,b);
+        int t = i();
+        while(t-->0){
+            i(); int[] d = ni();
+            int s = 0;
+            for(int e : d) s+=e;
+            writer.println(s >= 0 ? "YES" : "NO");
+        }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        _1398D obj = new _1398D();
+        WATMELON obj = new WATMELON();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public _1398D(){
+    public WATMELON(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -74,7 +53,7 @@ public class _1398D {
         return send;
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         writer.flush();
         writer.close();
         bf.close();
