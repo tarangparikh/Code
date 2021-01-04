@@ -1,40 +1,32 @@
 import java.io.*;
+import java.util.Arrays;
 
-public class MaximumSubarraySum {
+class THREE {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
     void run() throws IOException {
-        i();
-        int[] d = ni();
-        long p = 0;
-        long m = 0;
-        long s = Integer.MIN_VALUE;
-        for(int e : d){
-            p+=e;
-            s = Math.max(p-m,s);
-            m = Math.min(p,m);
+        int t = i();
+        while(t-->0){
+            char[] d = bf.readLine().toCharArray();
+            int[] f = new int[26];
+            for(char e : d) f[e - 'a']++;
+            
         }
-        writer.println(s);
-    }
-
-    public static int sm(int[] d){
-        
-        return 0;
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        MaximumSubarraySum obj = new MaximumSubarraySum();
+        THREE obj = new THREE();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public MaximumSubarraySum(){
+    public THREE(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,7 +54,7 @@ public class MaximumSubarraySum {
         return send;
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         writer.flush();
         writer.close();
         bf.close();

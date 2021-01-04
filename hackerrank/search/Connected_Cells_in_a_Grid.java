@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 public class Connected_Cells_in_a_Grid {
     BufferedReader bf;
     PrintWriter writer;

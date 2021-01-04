@@ -94,25 +94,66 @@ public class App {
             if(a[i] != b[i]) return false;
         return true;
     }
-    void run() throws IOException {
-        char[] chain_a = "tarangparikh".toCharArray();
-        char[] chain_b = "tarangparikh".toCharArray();
-        boolean error = false;
-        int block = -1;
-        int block_index = -1;
-        for(int i = 0;i<chain_a.length;i+=6){
-            for(int j = i;j<i+6;j++){
-                if(error = chain_a[j] != chain_b[j]){
-                    block = i;
-                    block_index = j;
-                    break;
-                }
+    
+
+    boolean isNumber(char a){
+        return a>='0' && a<='9';
+    }
+
+    int getPrecedence(char a){
+        return a == '*' || a == '/' ? a == '+' || a == '-' ? 2 : 1 : 0;
+    }
+
+    char[] postfixExpression(char[] expression){
+        int length = expression.length;
+        char[] holder = new char[length];
+        char[] stack = new char[length];
+        int toph = 0;
+        int tops = -1;
+
+        for(int i = 0 ; i < length ; i++){
+            if(isNumber(expression[i])) holder[toph++] = expression[i];
+            else{
+                while(tops!=-1 && getPrecedence(stack[tops]) > getPrecedence(expression[i])) holder[toph++] = stack[tops--];
+                stack[++tops] = expression[i];
             }
         }
-        if(!error) System.out.println("NO ERROR FOUND");
-        else System.out.println("ERROR FOUND, BLOCK : "+block+" INDEX :"+block_index);
-        
-     }
+
+        while(tops!=-1) holder[toph++] = stack[tops--];
+
+        return holder;
+    }
+
+    int evaluate(char[] postfix){
+        int length = postfix.length;
+        int[] stack = new int[length];
+        int tops = -1;
+        for(int i = 0 ; i < length ; i++ ){
+            if(isNumber(postfix[i])) stack[++tops] = Integer.parseInt(Character.toString(postfix[i]));
+            else{
+                int a = stack[tops--];
+                int b = stack[tops--];
+                int result = evaluate(b, a, postfix[i]);
+                stack[++tops] = result;
+            }
+        }
+        return stack[tops--];
+    }
+
+    Integer evaluate(int a,int b,char operator){
+        switch(operator){
+            case '+' : return a+b;
+            case '-' : return a-b;
+            case '/' : return a/b;
+            case '*' : return a*b;
+            default : return null;
+        }
+    }
+
+    void run() throws IOException {
+        char[] d = "5+4/2".toCharArray();
+        System.out.println(evaluate(postfixExpression(d)));
+    }
 
     String upperTriangle(int size,char character){
         StringBuilder sb = new StringBuilder();

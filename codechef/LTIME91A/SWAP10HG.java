@@ -1,40 +1,41 @@
 import java.io.*;
 
-public class MaximumSubarraySum {
+class SWAP10HG {
     BufferedReader bf;
     PrintWriter writer;
     StringBuilder sb;
     static boolean local_system = false;
 
-    void run() throws IOException {
-        i();
-        int[] d = ni();
-        long p = 0;
-        long m = 0;
-        long s = Integer.MIN_VALUE;
-        for(int e : d){
-            p+=e;
-            s = Math.max(p-m,s);
-            m = Math.min(p,m);
+    boolean find(char[] a,char[] b){
+        int p = 0;
+        int n = a.length;
+        for(int i = 0;i<n;i++){
+            p += a[i] - b[i];
+            if(p < 0) return false;
         }
-        writer.println(s);
+        return p == 0;
     }
 
-    public static int sm(int[] d){
-        
-        return 0;
+    void run() throws IOException {
+        int t = i();
+        while(t-->0){
+            int n = i();
+            char[] a = bf.readLine().toCharArray();
+            char[] b = bf.readLine().toCharArray();
+            writer.println(find(a, b) ? "Yes":"No");
+        }
     }
 
     public static void main(String[] args) throws IOException {
         long start_time = System.currentTimeMillis();
-        MaximumSubarraySum obj = new MaximumSubarraySum();
+        SWAP10HG obj = new SWAP10HG();
         obj.run();
         long end_time = System.currentTimeMillis();
         if (local_system) obj.writer.println("Time : " + (end_time - start_time));
         obj.close();
     }
 
-    public MaximumSubarraySum(){
+    public SWAP10HG(){
         writer = new PrintWriter(System.out);
         bf = new BufferedReader(new InputStreamReader(System.in));
         sb = new StringBuilder();
@@ -62,7 +63,7 @@ public class MaximumSubarraySum {
         return send;
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         writer.flush();
         writer.close();
         bf.close();
