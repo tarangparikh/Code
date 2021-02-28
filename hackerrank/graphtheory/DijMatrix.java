@@ -3,149 +3,152 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class DijMatrix {
-    BufferedReader bf;
-    PrintWriter writer;
-    StringBuilder sb;
-    static boolean local_system = false;
 
-    void run() throws IOException {
-        // N and M from the Input
-        int[] c = ints();
+	BufferedReader bf;
+	PrintWriter writer;
+	StringBuilder sb;
+	static boolean local_system = false;
 
-        // Value of N = Number of Rows
-        int n = c[0];
+	void run() throws IOException {
+		// N and M from the Input
+		int[] c = ints();
 
-        // Value of M = Number of Columns
-        int m = c[1];
+		// Value of N = Number of Rows
+		int n = c[0];
 
-        // Declaration of matrix D
-        int[][] d = new int[n][];
+		// Value of M = Number of Columns
+		int m = c[1];
 
-        // Taking Input of the matrix
-        for(int i = 0;i<n;i++) d[i] = ints();
+		// Declaration of matrix D
+		int[][] d = new int[n][];
 
-        // Declaring DP matrix of NxM dimension
-        int[][] dp = new int[n][m];
+		// Taking Input of the matrix
+		for (int i = 0; i < n; i++) d[i] = ints();
 
-        // Filling entrire DP with MAXIMUM VALUE of INTEGER
-        for(int i = 0;i<n;i++) Arrays.fill(dp[i], Integer.MAX_VALUE);
-        
-        // Maxium of first 0,0 index is 0
-        dp[0][0] = 0;
+		// Declaring DP matrix of NxM dimension
+		int[][] dp = new int[n][m];
 
-        // Min heap based on current maximum for each index
-        PriorityQueue<int[]> q = new PriorityQueue<>((a,b) -> Integer.compare(a[2],b[2]));
+		// Filling entrire DP with MAXIMUM VALUE of INTEGER
+		for (int i = 0; i < n; i++) Arrays.fill(dp[i], Integer.MAX_VALUE);
 
-        // Adding the frist Value (0,0,0) i = 0 j = 0 max = 0
-        q.add(new int[]{0,0,0});
-        
-        // Looping till the queue is empty
-        while(!q.isEmpty()){
+		// Maxium of first 0,0 index is 0
+		dp[0][0] = 0;
 
-            // Removing minumum entry 
-            int[] r = q.poll();
+		// Min heap based on current maximum for each index
+		PriorityQueue<int[]> q = new PriorityQueue<>(
+			(a, b) -> Integer.compare(a[2], b[2])
+		);
 
-            // ith index of current entry
-            int i = r[0];
+		// Adding the frist Value (0,0,0) i = 0 j = 0 max = 0
+		q.add(new int[] { 0, 0, 0 });
 
-            // jth index of current entry
-            int j = r[1];
+		// Looping till the queue is empty
+		while (!q.isEmpty()) {
+			// Removing minumum entry
+			int[] r = q.poll();
 
-            // Max for current entry
-            int max = r[2];
+			// ith index of current entry
+			int i = r[0];
 
-            // Continue of previous iterations found minium value of maximum differece
-            if(dp[i][j] < max) continue;
+			// jth index of current entry
+			int j = r[1];
 
-            /**
-             *  Checking for four possible directions
-             * 
-             *  i + 1 , j
-             *  i - 1 , j
-             *  i , j + 1
-             *  i , j - 1
-             */
-            
-            if(i + 1 < n){
-                int v = Math.max(max, Math.abs(d[i+1][j]-d[i][j]));
-                if(v < dp[i+1][j]){
-                    dp[i+1][j] = v;
-                    q.add(new int[]{i+1,j,v});
-                }
-            }
+			// Max for current entry
+			int max = r[2];
 
-            if(i - 1 >= 0){
-                int v = Math.max(max, Math.abs(d[i-1][j]-d[i][j]));
-                if(v < dp[i-1][j]){
-                    dp[i-1][j] = v;
-                    q.add(new int[]{i-1,j,v});
-                }
-            }
-            
-            if(j + 1 < m){
-                int v = Math.max(max, Math.abs(d[i][j+1]-d[i][j]));
-                if(v < dp[i][j+1]){
-                    dp[i][j+1] = v;
-                    q.add(new int[]{i,j+1,v});
-                }
-            }
+			// Continue of previous iterations found minium value of maximum differece
+			if (dp[i][j] < max) continue;
 
-            if(j - 1 >= 0){
-                int v = Math.max(max, Math.abs(d[i][j-1]-d[i][j]));
-                if(v < dp[i][j-1]){
-                    dp[i][j-1] = v;
-                    q.add(new int[]{i,j-1,v});
-                }
-            }
-        
-        }
+			/**
+			 *  Checking for four possible directions
+			 *
+			 *  i + 1 , j
+			 *  i - 1 , j
+			 *  i , j + 1
+			 *  i , j - 1
+			 */
 
-        // Minimum among all absolute difference on path till the n-1,m-1 index
-        writer.println(dp[n-1][m-1]);
-    }
+			if (i + 1 < n) {
+				int v = Math.max(max, Math.abs(d[i + 1][j] - d[i][j]));
+				if (v < dp[i + 1][j]) {
+					dp[i + 1][j] = v;
+					q.add(new int[] { i + 1, j, v });
+				}
+			}
 
-    public static void main(String[] args) throws IOException {
-        long start_time = System.currentTimeMillis();
-        DijMatrix obj = new DijMatrix();
-        obj.run();
-        long end_time = System.currentTimeMillis();
-        if (local_system) obj.writer.println("Time : " + (end_time - start_time));
-        obj.close();
-    }
+			if (i - 1 >= 0) {
+				int v = Math.max(max, Math.abs(d[i - 1][j] - d[i][j]));
+				if (v < dp[i - 1][j]) {
+					dp[i - 1][j] = v;
+					q.add(new int[] { i - 1, j, v });
+				}
+			}
 
-    public DijMatrix(){
-        writer = new PrintWriter(System.out);
-        bf = new BufferedReader(new InputStreamReader(System.in));
-        sb = new StringBuilder();
-    }
+			if (j + 1 < m) {
+				int v = Math.max(max, Math.abs(d[i][j + 1] - d[i][j]));
+				if (v < dp[i][j + 1]) {
+					dp[i][j + 1] = v;
+					q.add(new int[] { i, j + 1, v });
+				}
+			}
 
-    public int getInt() throws IOException {
-        return Integer.parseInt(bf.readLine());
-    }
+			if (j - 1 >= 0) {
+				int v = Math.max(max, Math.abs(d[i][j - 1] - d[i][j]));
+				if (v < dp[i][j - 1]) {
+					dp[i][j - 1] = v;
+					q.add(new int[] { i, j - 1, v });
+				}
+			}
+		}
 
-    public long getLong() throws IOException {
-        return Long.parseLong(bf.readLine());
-    }
+		// Minimum among all absolute difference on path till the n-1,m-1 index
+		writer.println(dp[n - 1][m - 1]);
+	}
 
-    public int[] ints() throws IOException {
-        String[] data = bf.readLine().split(" ");
-        int[] send = new int[data.length];
-        for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
-        return send;
-    }
+	public static void main(String[] args) throws IOException {
+		long start_time = System.currentTimeMillis();
+		DijMatrix obj = new DijMatrix();
+		obj.run();
+		long end_time = System.currentTimeMillis();
+		if (local_system) obj.writer.println(
+			"Time : " + (end_time - start_time)
+		);
+		obj.close();
+	}
 
-    public long[] longs() throws IOException {
-        String[] data = bf.readLine().split(" ");
-        long[] send = new long[data.length];
-        for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
-        return send;
-    }
+	public DijMatrix() {
+		writer = new PrintWriter(System.out);
+		bf = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
+	}
 
-    public void close() throws IOException{
-        writer.flush();
-        writer.close();
-        bf.close();
-    }
+	public int getInt() throws IOException {
+		return Integer.parseInt(bf.readLine());
+	}
+
+	public long getLong() throws IOException {
+		return Long.parseLong(bf.readLine());
+	}
+
+	public int[] ints() throws IOException {
+		String[] data = bf.readLine().split(" ");
+		int[] send = new int[data.length];
+		for (int i = 0, h = data.length; i < h; i++) send[i] =
+			Integer.parseInt(data[i]);
+		return send;
+	}
+
+	public long[] longs() throws IOException {
+		String[] data = bf.readLine().split(" ");
+		long[] send = new long[data.length];
+		for (int i = 0, h = data.length; i < h; i++) send[i] =
+			Long.parseLong(data[i]);
+		return send;
+	}
+
+	public void close() throws IOException {
+		writer.flush();
+		writer.close();
+		bf.close();
+	}
 }
-
-
