@@ -1,5 +1,6 @@
 import java.io.*;
 
+
 class SWAP10HG {
     BufferedReader bf;
     PrintWriter writer;
