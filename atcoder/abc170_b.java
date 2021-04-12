@@ -1,58 +1,61 @@
 import java.io.*;
 
 class Main {
-    BufferedReader bf;
-    PrintWriter writer;
-    StringBuilder sb;
-    static boolean local_system = false;
 
-    void run() throws IOException {
-        int[] c = ni();
-        writer.println((c[1]&1) == 1 || c[1]>>1>c[0]<<1 ? "No" : "Yes");
-    }
+	BufferedReader bf;
+	PrintWriter writer;
+	StringBuilder sb;
+	static boolean local_system = false;
 
-    public static void main(String[] args) throws IOException {
-        long start_time = System.currentTimeMillis();
-        Main obj = new Main();
-        obj.run();
-        long end_time = System.currentTimeMillis();
-        if (local_system) obj.writer.println("Time : " + (end_time - start_time));
-        obj.close();
-    }
+	void run() throws IOException {
+		int[] c = ni();
+		writer.println((c[1] & 1) == 1 || c[1] >> 1 > c[0] << 1 ? "No" : "Yes");
+	}
 
-    public Main(){
-        writer = new PrintWriter(System.out);
-        bf = new BufferedReader(new InputStreamReader(System.in));
-        sb = new StringBuilder();
-    }
+	public static void main(String[] args) throws IOException {
+		long start_time = System.currentTimeMillis();
+		Main obj = new Main();
+		obj.run();
+		long end_time = System.currentTimeMillis();
+		if (local_system) obj.writer.println(
+			"Time : " + (end_time - start_time)
+		);
+		obj.close();
+	}
 
-    public int i() throws IOException {
-        return Integer.parseInt(bf.readLine());
-    }
+	public Main() {
+		writer = new PrintWriter(System.out);
+		bf = new BufferedReader(new InputStreamReader(System.in));
+		sb = new StringBuilder();
+	}
 
-    public long l() throws IOException {
-        return Long.parseLong(bf.readLine());
-    }
+	public int i() throws IOException {
+		return Integer.parseInt(bf.readLine());
+	}
 
-    public int[] ni() throws IOException {
-        String[] data = bf.readLine().split(" ");
-        int[] send = new int[data.length];
-        for (int i = 0, h = data.length; i < h; i++) send[i] = Integer.parseInt(data[i]);
-        return send;
-    }
+	public long l() throws IOException {
+		return Long.parseLong(bf.readLine());
+	}
 
-    public long[] nl() throws IOException {
-        String[] data = bf.readLine().split(" ");
-        long[] send = new long[data.length];
-        for (int i = 0, h = data.length; i < h; i++) send[i] = Long.parseLong(data[i]);
-        return send;
-    }
+	public int[] ni() throws IOException {
+		String[] data = bf.readLine().split(" ");
+		int[] send = new int[data.length];
+		for (int i = 0, h = data.length; i < h; i++) send[i] =
+			Integer.parseInt(data[i]);
+		return send;
+	}
 
-    public void close() throws IOException{
-        writer.flush();
-        writer.close();
-        bf.close();
-    }
+	public long[] nl() throws IOException {
+		String[] data = bf.readLine().split(" ");
+		long[] send = new long[data.length];
+		for (int i = 0, h = data.length; i < h; i++) send[i] =
+			Long.parseLong(data[i]);
+		return send;
+	}
+
+	public void close() throws IOException {
+		writer.flush();
+		writer.close();
+		bf.close();
+	}
 }
-
-
